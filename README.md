@@ -1,28 +1,13 @@
 # Requirements
 
-This SitemapBundle requires DoctrineMongoDBBundle enabled with default document
-manager available.
+This SitemapBundle is modification of Avalanche123 sitemap bundle which support generation of sitemap files with Doctrine ORM.
 
-In your doctrine mongodb odm bundle configuration add the following, in order to
-register sitemap documents metadata:
+# Installation
 
-    doctrine_odm.mongodb:
-        # some odm configuration
-        mappings:
-            # other bundles mapping and etc.
-            SitemapBundle:
-                type: yml
-                prefix: Avalanche\Bundle\SitemapBundle\Sitemap
-
-# Installation as a submodule
-
-The most common way to install a Bundle is by adding it as a submodule to your existing project. This setup will let you update the Bundle with ease in the future.
-
+Installation is general for Symfony2 bundles.
 From the root directory of your Symfony2 application issue the following commands:
     $> mkdir src/Bundle/Avalanche
-    $> git submodule add git://github.com/avalanche123/AvalancheSitemapBundle.git src/Avalanche/Bundle/SitemapBundle
-
-# Adding bundle to Kernel
+    $> git submodule add git@github.com:ishenkoyv/AvalancheSitemapBundle.git src/Avalanche/Bundle/SitemapBundle
 
 This bundle will help with sitemap generation in your Symfony2 based projects.
 To enable the sitemap bundle, add it to you kernel registerBundles() method:
@@ -40,41 +25,22 @@ To enable the sitemap bundle, add it to you kernel registerBundles() method:
         }
         ...
 
-        public function registerBundleDirs()
-        {
-            return array(
-                ...
-                'Avalanche' => __DIR__.'/../src/Avalanche',
-                ...
-            );
-        }
-    }
+Also add path to registerNamespaces array in autoload
 
-# Unique indexes
+		$loader->registerNamespaces(array(
+			...
+			'Avalanche' => __DIR__.'/../src/Avalanche',
+			...
+		));
 
-Each entry in a sitemap (url or image) must have a unique loc attribute.
-AvalancheSitemapBundle defines indexes in the doctrine odm metadata for url class.
-To create them in your mongodb database, run the following command:
-
-    $> app/console doctrine:mongodb:schema:create --index
 
 # Enabling the services
 
 The second step is to enable its DependencyInjection extension in your
 config.yml:
 
-    sitemap.config:
-        base_url: "http://mywebsite.com/"
-
-To store urls in a custom collection or database, use the following:
-
-    sitemap.config:
-        base_url: "http://mywebsite.com/"
-        database: some_database
-        collection: urls
-
-By default 'sitemap' database will be used, with unique urls collection per
-Kernel.
+	avalanche_sitemap:
+		base_url: "http://mywebsite.com/"
 
 # Writing custom url providers for *sitemap:generate* command
 
@@ -143,35 +109,3 @@ After providers are in place and registered, time to run the generation command:
 
     > php forum/console sitemap:generate
 
-or simply:
-
-    > php forum/console sitemap:g
-
-# Creating/Updating sitemap urls in the application
-
-Creating/updating urls from web is as easy as from cli:
-
-    $url = $this->sitemap->get('/topics/1');
-    $url->setLastmod(new \DateTime());
-
-    $this->sitemap->add(new Url('http://www.google.com'));
-
-    $this->sitemap->save();
-
-# Enabling sitemap routes
-
-The last and most important step is to enable sitemap routing in your routing.yml:
-
-    _sitemap:
-      resource: SitemapBundle/Resources/config/routing.yml
-
-After that is done, you can access your sitemap at /sitemap.xml and siteindex at /siteindex.xml
-
-Happy Coding
-
-
-
-config.yml
---------------------------------------
-avalanche_sitemap:
-    base_url: "http://mywebsite.com/"
