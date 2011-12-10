@@ -34,4 +34,9 @@ class AvalancheSitemapExtension extends Extension
             $container->setParameter('sitemap.base_url', $config['base_url']);
         }
     }
+
+    public function getAlias()
+    {
+        return 'avalanche_sitemap';
+    }
 }

@@ -17,9 +17,20 @@ class GenerateCommand extends ContainerAwareCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+		$sitemapDir = $this->getContainer()->getParameter('kernel.root_dir') . '/../web/sitemap/';
+
         $sitemap = $this->getContainer()->get('sitemap');
+        $sitemap->prepare();
 
         $this->getContainer()->get('sitemap.provider.chain')->populate($sitemap);
+
+
+		@file_put_contents($sitemapDir. 'sitemap.xml', $this->getContainer()->get('sitemap.controller')->siteindex()->getContent());
+
+		$pagesCount = $sitemap->pages();
+		for ($i = 1; $i <= $pagesCount; $i++) {
+			@file_put_contents($sitemapDir. 'sitemap' . $i . '.xml', $this->getContainer()->get('sitemap.controller')->sitemap($i)->getContent());
+		}
 
         $output->write('<info>Sitemap was sucessfully populated!</info>', true);
     }

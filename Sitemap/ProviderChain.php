@@ -13,7 +13,7 @@ class ProviderChain implements Provider
         $this->providers[] = $provider;
     }
 
-    public function populate(Sitemap $sitemap)
+    public function populate($sitemap)
     {
         foreach ($this->providers as $provider) {
             $provider->populate($sitemap);

@@ -10,19 +10,15 @@ class SitemapController
 {
     private $sitemap;
     private $templating;
-    private $request;
 
-    public function __construct(Sitemap $sitemap, EngineInterface $templating, Request $request)
+    public function __construct(Sitemap $sitemap, EngineInterface $templating)
     {
         $this->sitemap    = $sitemap;
         $this->templating = $templating;
-        $this->request    = $request;
     }
 
-    public function sitemap()
+    public function sitemap($page = 1)
     {
-        $page = $this->request->query->get('page', 1);
-
         $this->sitemap->setPage($page);
 
         return $this->templating->renderResponse('AvalancheSitemapBundle:Sitemap:sitemap.twig.xml', array(

@@ -9,12 +9,12 @@ use Avalanche\Bundle\SitemapBundle\Sitemap\Url\Image;
 
 class Url implements Locatable
 {
-    private $id;
-    private $loc;
-    private $lastmod;
-    private $changefreq;
-    private $priority;
-    private $images;
+    protected $id;
+    protected $loc;
+    protected $lastmod;
+    protected $changefreq;
+    protected $priority;
+    protected $images;
 
     const ALWAYS = 'always';
     const HOURLY = 'hourly';
@@ -36,6 +36,12 @@ class Url implements Locatable
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setLoc($loc)
+    {
+		$this->loc = $loc;	
+		//return $this->loc;
     }
 
     public function getLoc()

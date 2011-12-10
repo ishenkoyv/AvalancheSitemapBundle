@@ -6,5 +6,5 @@ use Avalanche\Bundle\SitemapBundle\Sitemap;
 
 interface Provider
 {
-    function populate(Sitemap $sitemap);
+    function populate($sitemap);
 }

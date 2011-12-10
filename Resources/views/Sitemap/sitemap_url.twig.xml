@@ -1,4 +1,5 @@
-<loc>{{ url('sitemap', { 'page': page }) }}</loc>
+{% set sitemapUrl = '/sitemap/sitemap' ~ page ~ '.xml' %}
+<loc>{{ sitemapUrl|sm_absolutize }}</loc>
 {% if sitemap.lastmod(page) %}
 <lastmod>sitemap.lastmod(page)|sm_format_date</lastmod>
 {% endif %}
