@@ -1,6 +1,7 @@
 # Requirements
 
 This SitemapBundle is modification of Avalanche123 sitemap bundle which support generation of sitemap files with Doctrine ORM.
+Default destination folder is web/sitemap/, so create if you don't have one.
 
 # Installation
 
@@ -33,6 +34,8 @@ Also add path to registerNamespaces array in autoload
 			...
 		));
 
+# Update DB
+	app/console doctrine:schema:update --force
 
 # Enabling the services
 
